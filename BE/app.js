@@ -14,14 +14,20 @@ const port = 3000;
 const api = process.env.API_URL;
 
 // Router address
+const categoriesRoutes = require('./src/routers/categories');
 const productsRouter = require('./src/routers/products');
+const usersRoutes = require('./src/routers/users');
+const orderRoutes = require('./src/routers/orders');
 
 //midleware
 app.use(express.json());
 app.use(morgan('tiny'));
 
 //router
+app.use(`${api}/categories`, categoriesRoutes);
 app.use(`${api}/products`, productsRouter);
+app.use(`${api}/users`, usersRoutes);
+app.use(`${api}/orders`, orderRoutes);
 
 // database
 mongoose
