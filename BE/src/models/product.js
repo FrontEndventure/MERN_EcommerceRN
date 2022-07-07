@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const productShema = mongoose.Schema({
+const productSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -60,5 +60,11 @@ const productShema = mongoose.Schema({
   },
 });
 
-exports.Product = mongoose.model('Product', productShema);
+productSchema.method('toJSON', function () {
+  const {__v, ...object} = this.toObject();
+  const {_id: id, ...result} = object;
+  return {...result, id};
+});
+
+exports.Product = mongoose.model('Product', productSchema);
 // module.exports = mongoose.model('Product', productShema);

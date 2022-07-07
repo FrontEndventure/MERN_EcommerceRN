@@ -7,8 +7,13 @@ const monggose = require('mongoose');
 const {Product} = require('../models/product');
 
 router.get(`/`, async (req, res) => {
-  // const productList = await Product.find().select('name image');
-  const productList = await Product.find();
+  // query parameter => localhost:3000/api/vi/products?categories=2342342,234234
+  let filter = {};
+  if (req.query.categories) {
+    filter = {category: req.query.categories.split(',')};
+  }
+  
+  const productList = await Product.find(filter).populate('category');
   if (!productList) {
     res.status(500).json({success: false});
   }
@@ -161,10 +166,10 @@ router.get(`/get/count`, async (req, res) => {
 router.get(`/get/featured/:count`, async (req, res) => {
   const count = req.params.count ? req.params.count : 0;
   // const products = await Product.find({ isFeatured: true }).limit(+count);
-  const products = await Product.find({ isFeatured: true }).limit(+count);
+  const products = await Product.find({isFeatured: true}).limit(+count);
 
   if (!products) {
-      res.status(500).json({ success: false });
+    res.status(500).json({success: false});
   }
   res.send(products);
 });
