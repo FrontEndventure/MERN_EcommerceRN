@@ -10,7 +10,7 @@ import 'dotenv/config';
 
 app.use(cors());
 app.options('*', cors());
-const port = 3000;
+const port = 3005;
 const api = process.env.API_URL;
 
 // Router address
